@@ -7,9 +7,6 @@
 
 void *factorial (void *);
 
-int res;
-int* restmp;
-
 int main (int argc, char *argv[]) {
   srand(time(0));
   pthread_t t[argc-1];
@@ -18,14 +15,10 @@ int main (int argc, char *argv[]) {
     int args[argc-1]; 
     for (int i=0;i<argc-1;i++){
     	args[i] = atoi(argv[i+1]);
-    	printf("arg :%d",args[i]);
     	pthread_create(&t[i], NULL, factorial, &args[i]);
     }
     for (int i=0;i<argc-1;i++){
-    	//pthread_join(t[i],(void*)&res[i]);
-	pthread_join(t[i],NULL);
-    	//res[i]=*restmp;
-	//printf("resultado: %d",res[i]);    	
+	    pthread_join(t[i],NULL);
     }
   }else{
     printf("Faltan argumentos");
@@ -40,9 +33,9 @@ void *factorial(void *ar) {
   int num;
   for (num = 2; num <= *n; num++) {
     resultado= resultado*num;
-    printf ("Factorial de %d, resultado parcial %lld\n", *n, resultado);
-    sleep (0.5);
+    printf("Factorial de %d, resultado parcial %lld\n", *n, resultado);
+    sleep (random()%3);
   }
-  //int *tmp = (void *)&resultado;
+  printf("El hilo: %lu termino.\n", (unsigned long) pthread_self());
   return NULL;
 }
