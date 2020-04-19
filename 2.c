@@ -7,7 +7,7 @@
 
 void *factorial (void *);
 
-int res[100];
+int res;
 int* restmp;
 
 int main (int argc, char *argv[]) {
@@ -15,20 +15,17 @@ int main (int argc, char *argv[]) {
   pthread_t t[argc-1];
   if(argc >= 2){
     //res=realloc(res,(argc-1)*sizeof(void));
-    //int args[argc-1]; 
+    int args[argc-1]; 
     for (int i=0;i<argc-1;i++){
-    	int arg = atoi(argv[i+1]);
-    	//int *b = factorial(&a);
-    	printf("arg :%d",arg);
-    	pthread_create(&t[i], NULL, factorial, &arg);
-    	//sleep(1);
+    	args[i] = atoi(argv[i+1]);
+    	printf("arg :%d",args[i]);
+    	pthread_create(&t[i], NULL, factorial, &args[i]);
     }
     for (int i=0;i<argc-1;i++){
-    	pthread_join(t[i],(void*)&res[i]);
-    	res[i]=*restmp;
-	printf("resultado: %d",res[i]);
+    	//pthread_join(t[i],(void*)&res[i]);
+	pthread_join(t[i],NULL);
     	//res[i]=*restmp;
-    	
+	//printf("resultado: %d",res[i]);    	
     }
   }else{
     printf("Faltan argumentos");
@@ -47,5 +44,5 @@ void *factorial(void *ar) {
     sleep (0.5);
   }
   //int *tmp = (void *)&resultado;
-  return resultado;
+  return NULL;
 }
