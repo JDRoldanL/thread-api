@@ -12,14 +12,11 @@
 
 
 void *sumatoria (void *);
-int *res1;
-void *res2;
-int sumh1 = 0;
-int sumh2 = 0;
 
 typedef struct arr{
     int tamaño;
     int *vector;
+    int result;
 }arr;
 
 
@@ -70,11 +67,11 @@ int main (int argc, char *argv[]) {
         close(fd);
         pthread_create(&h1,NULL,sumatoria, &ar1);
         pthread_create(&h2,NULL,sumatoria, &ar2);
-
-        //NOS DESTRUIRAN A TODOS!!!
-        pthread_join(h1, (void *)res1);
-        pthread_join(h2, res2);
-        printf("sum1 = %d\n", *res1);
+        pthread_join(h1, NULL);
+        pthread_join(h2, NULL);
+        printf("resultado hilo 1 = %d\n", ar1.result);
+        printf("resultado hilo 2 = %d\n", ar2.result);
+        printf("La suma total es = %d\n", (ar1.result + ar2.result));
         clock_t end = clock();
         printf("El tiempo es = %f\n", (((double)(end - start))/CLOCKS_PER_SEC));
     }
@@ -83,12 +80,12 @@ int main (int argc, char *argv[]) {
 
 void *sumatoria(void *vec){
     arr *ar = (arr *)vec;
-    printf("tamaño = %d\n", ar->tamaño);
     int *sum = (int *)malloc(sizeof(int));
     *sum = 0;
     int *b = ar->vector;
     for (int i = 0; i < ar->tamaño; i++){
         *sum = *sum + b[i];
     }
-    return (void *)sum;
+    ar->result = *sum;
+    pthread_exit(NULL);
 }
