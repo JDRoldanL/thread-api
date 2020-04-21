@@ -27,16 +27,19 @@ int main (int argc, char *argv[]) {
     }
     if(argc == 2){
         pthread_t h1,h2;
-        int cont = 1, leidos;
+        int cont = 0, leidos;
         char cadena[MAXLON];
-        int *valores;
+        int *valores = (int *)malloc(sizeof(int)*1);;
         int fd;
+
         clock_t start = clock();
         fd= open(argv[1],O_RDONLY);
         while ((leidos = read(fd,cadena,MAXLON)) != 0) {
+            printf("Cadena: %s\n", cadena);
             char *cad = strtok(cadena, " ");
-            valores = (int *)malloc(sizeof(int)*1);
-            valores[0] = atoi(cad);
+            valores = realloc(valores, sizeof(int)*(cont+1));
+            valores[cont] = atoi(cad);
+            cont++;
             while(cad != NULL){
                 cad = strtok(NULL, " ");
                 if(cad != NULL){
