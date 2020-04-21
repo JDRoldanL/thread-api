@@ -29,13 +29,11 @@ int main (int argc, char *argv[]) {
         pthread_t h1,h2;
         int cont = 0, leidos;
         char cadena[MAXLON];
-        int *valores = (int *)malloc(sizeof(int)*1);;
+        int *valores = (int *)malloc(sizeof(int)*1);
         int fd;
-
         clock_t start = clock();
         fd= open(argv[1],O_RDONLY);
         while ((leidos = read(fd,cadena,MAXLON)) != 0) {
-            printf("Cadena: %s\n", cadena);
             char *cad = strtok(cadena, " ");
             valores = realloc(valores, sizeof(int)*(cont+1));
             valores[cont] = atoi(cad);

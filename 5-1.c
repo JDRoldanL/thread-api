@@ -28,17 +28,18 @@ int main (int argc, char *argv[]) {
 
 void sumatoria (void *nom) {
     char *nombre = nom;
-    int cont = 1, leidos;
+    int cont = 0, leidos;
     char cadena[MAXLON];
     int fd;
     int acumular = 0;
-    int *valores;
+    int *valores = (int *)malloc(sizeof(int)*1);
     fd= open(nombre,O_RDONLY);
     while ((leidos = read(fd,cadena,MAXLON)) != 0) {
         char *cad = strtok(cadena, " ");
-        valores = (int *)malloc(sizeof(int)*1);
-        valores[0] = atoi(cad);
+        valores = realloc(valores, sizeof(int)*(cont+1));
+        valores[cont] = atoi(cad);
         acumular = valores[0];
+        cont++;
         while(cad != NULL){
             cad = strtok(NULL, " ");
             if(cad != NULL){
@@ -49,11 +50,6 @@ void sumatoria (void *nom) {
             }
         }
         printf("La sumatoria es = %d\n", acumular);
-        /*
-        for (int i = 0; i < cont; i++){
-            printf("Valores %d = %d\n", i , valores[i]);
-        }
-        */
     }
     close(fd);
 }
