@@ -1,0 +1,8 @@
+punto 5
+
+-tiempo para ejecución secuencial: 0.000125
+-tiempo para paralela: 0.000326
+
+-Técnica usada: se mide el tiempo en que inicia la ejecución y el tiempo en el que termina con variables tipo clock_t. Restando 
+inicial-final se optiene el tiempo de ejecución (en ticks del ciclos de reloj). La fórmula completa para obtener el tiempo en segundos
+sería time=(end-start)/CLOCKS_PER_SEC, donde CLOCKS_PER_SEC es una constante que tiene el número de ciclos por segundo de la CPU.
